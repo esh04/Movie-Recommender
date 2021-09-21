@@ -130,5 +130,9 @@ dmypy.json
 
 #csv/tsv to ignore
 *.tsv
-data/new/
+main_new.csv
+actor_new.csv
+crew_new.csv
+secondary_new.csv
+
 data/zip
