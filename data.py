@@ -96,24 +96,26 @@ def merge(main,sec,actor,names):
 
 # _______________________________________________________________________
 
-# main_d = main_data()
-# sec_d = secondary_data()
+main_d = main_data()
+sec_d = secondary_data()
 
 #once csv is created can directly get data from csv to speed up the process
-main_d=pd.read_csv('./data/main_new.csv')
-sec_d=pd.read_csv('./data/secondary_new.csv')       
+# main_d=pd.read_csv('./data/main_new.csv')
+# sec_d=pd.read_csv('./data/secondary_new.csv')       
 
 names_d = names_of_crew()
 
-# crew_d = crew_data()
+crew_d = crew_data()
 # crew_d = pd.read_csv('./data/crew_new.csv')
-# actor_d = actor_data(crew_d, names_d)
-actor_d=pd.read_csv('./data/actor_new.csv')
+actor_d = actor_data(crew_d, names_d)
+# actor_d=pd.read_csv('./data/actor_new.csv')
 
 df = merge(main_d,sec_d,actor_d,names_d)
 
 df.drop_duplicates(subset='titleId', inplace = True)
 df = df[df['startYear'] > '1990']
+
+df = df.drop(df.columns[0], axis=1)
 
 df.to_csv("./data/data.csv")
 
