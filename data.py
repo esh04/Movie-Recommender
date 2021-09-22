@@ -89,6 +89,7 @@ actor_d = actor_data(crew_d)
 
 df = merge(main_d,sec_d,directors_d,ratings_d,actor_d)
 df.drop_duplicates(subset='titleId', inplace = True)
+df = df[df['startYear'] > '1990']
 
 df.to_csv("./data/data.csv")
 
