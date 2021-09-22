@@ -1,0 +1,11 @@
+.circle {
+  border-radius: 100px;
+  height: 16px;
+  width: 16px;
+  padding: 10px;
+}
+
+.main-container {
+  height: 82vh;
+  margin: 0;
+}
