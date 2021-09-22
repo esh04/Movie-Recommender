@@ -35,6 +35,20 @@ def secondary_data():
     sec.to_csv('./data/secondary_new.csv')
     return sec
 
+def names_of_crew():
+
+    chunksize = 100000
+
+    list_of_dataframes = []
+
+    for df in pd.read_csv('./data/names.tsv', sep='\t', chunksize=chunksize):
+        list_of_dataframes.append(df[['nconst','primaryName']])
+
+    names_d = pd.concat(list_of_dataframes)
+
+    names = names_d.set_index('nconst')['primaryName']
+    return names
+
 def crew_data():
     chunksize = 100000
 
@@ -48,12 +62,16 @@ def crew_data():
     crew.to_csv('./data/crew_new.csv')
     return crew
 
-def actor_data(crew):
+def actor_data(crew, names):
+    crew['nconst'] = crew['nconst'].map(names)
     actor_new = crew.groupby('tconst')['nconst'].apply(list)
     actor_new.to_csv('./data/actor_new.csv')
     return actor_new
 
-def merge(main,sec,directors,ratings,actor):
+def merge(main,sec,actor,names):
+
+    directors = pd.read_csv('./data/directors.tsv', sep='\t')
+    ratings = pd.read_csv('./data/rating.tsv', sep='\t')
 
     final=pd.merge(main,sec,how='inner',
                 left_on=['titleId'],
@@ -68,26 +86,32 @@ def merge(main,sec,directors,ratings,actor):
     final=pd.merge(final,actor,how='left',
                left_on=['titleId'],
                right_on=['tconst']) 
-    df=final[['titleId', 'title','language','startYear','isAdult','genres','directors','writers','nconst','averageRating','numVotes']]
+   
+    final['writers'] = final['writers'].map(names)
+    final['directors'] = final['directors'].map(names)
+   
+    df=final[['titleId', 'title','language','startYear','isAdult','genres','directors','writers','nconst','averageRating','numVotes']]   
     return df
 
-main_d = main_data()
-sec_d = secondary_data()
+
+# _______________________________________________________________________
+
+# main_d = main_data()
+# sec_d = secondary_data()
 
 #once csv is created can directly get data from csv to speed up the process
-# main_d=pd.read_csv('./data/main_new.csv')
-# sec_d=pd.read_csv('./data/secondary_new.csv')
+main_d=pd.read_csv('./data/main_new.csv')
+sec_d=pd.read_csv('./data/secondary_new.csv')       
 
-directors_d = pd.read_csv('./data/directors.tsv', sep='\t')
-ratings_d = pd.read_csv('./data/rating.tsv', sep='\t')         
+names_d = names_of_crew()
 
-crew_d = crew_data()
-# crew = pd.read_csv('./data/crew_new.csv')
+# crew_d = crew_data()
+# crew_d = pd.read_csv('./data/crew_new.csv')
+# actor_d = actor_data(crew_d, names_d)
+actor_d=pd.read_csv('./data/actor_new.csv')
 
-actor_d = actor_data(crew_d)
-# actor_d=pd.read_csv('./data/actor_new.csv')
+df = merge(main_d,sec_d,actor_d,names_d)
 
-df = merge(main_d,sec_d,directors_d,ratings_d,actor_d)
 df.drop_duplicates(subset='titleId', inplace = True)
 df = df[df['startYear'] > '1990']
 
