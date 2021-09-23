@@ -3,7 +3,7 @@ import asyncio
 import pandas as pd
 from secrets import api_key
 
-df = pd.read_csv('../data/data.csv')
+df = pd.read_csv('../data/data.csv', low_memory=False)
 
 overview = [""]*73160
 poster = [""]*73160
@@ -34,13 +34,11 @@ async def get_data(session, titleId, index):
             try:
                 overview[index] = details['overview']
             except:
-                overview[index] = []
                 print(details)
 
             try:
                 poster[index] = details['poster_path']
             except:
-                poster[index] = []
                 print(details)
     except asyncio.TimeoutError:
         print("Error on ", index)
@@ -57,9 +55,9 @@ async def get_key(session, titleId, index):
         async with session.get(url) as response:
             details = await response.json()
             try:
-                keywords[index] = details['keywords']
+                keywords[index] = ' '.join(
+                    [item["name"] for item in details['keywords']])
             except:
-                keywords[index] = []
                 print(details)
 
     except asyncio.TimeoutError:
@@ -73,5 +71,5 @@ df['overview'] = overview
 df['poster'] = poster
 df['keywords'] = keywords
 
-df.to_csv('../data/data_new.csv')
+df.to_csv('../data/data.csv', index=False)
 # https://image.tmdb.org/t/p/original/ + path
