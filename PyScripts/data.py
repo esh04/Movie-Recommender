@@ -19,7 +19,7 @@ def main_data():
         list_of_dataframes.append(df1[['titleId','title','language']])
 
     main = pd.concat(list_of_dataframes)
-    main.to_csv('../data/main_new.csv')
+    main.to_csv('../data/main_new.csv', index=False)
     return main
 
 def secondary_data():
@@ -32,7 +32,7 @@ def secondary_data():
         list_of_dataframes.append(df1[['tconst','isAdult','genres','startYear']])
 
     sec = pd.concat(list_of_dataframes)
-    sec.to_csv('../data/secondary_new.csv')
+    sec.to_csv('../data/secondary_new.csv', index=False)
     return sec
 
 def names_of_crew():
@@ -59,13 +59,13 @@ def crew_data():
         list_of_dataframes.append(df1[['tconst','nconst']])
 
     crew = pd.concat(list_of_dataframes)
-    crew.to_csv('../data/crew_new.csv')
+    crew.to_csv('../data/crew_new.csv', index=False)
     return crew
 
 def actor_data(crew, names):
     crew['nconst'] = crew['nconst'].map(names)
     actor_new = crew.groupby('tconst')['nconst'].apply(list)
-    actor_new.to_csv('../data/actor_new.csv')
+    actor_new.to_csv('../data/actor_new.csv', index=False)
     return actor_new
 
 def merge(main,sec,actor,names):
@@ -115,7 +115,5 @@ df = merge(main_d,sec_d,actor_d,names_d)
 df.drop_duplicates(subset='titleId', inplace = True)
 df = df[df['startYear'] > '1990']
 
-df = df.drop(df.columns[0], axis=1)
-
-df.to_csv("../data/data.csv")
+df.to_csv("../data/data.csv", index=False)
 
