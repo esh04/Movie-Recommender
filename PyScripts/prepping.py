@@ -9,6 +9,7 @@ def clean(list_):
     list_ = list_.replace(']', '')
     return list_
 
+# rate all movies based in the true bayesian estimation (refer README.md)
 def rating(df):
 
     m = df.numVotes.quantile(0.80)
@@ -19,6 +20,7 @@ def rating(df):
 
     return df
 
+# store all possible genres in a pickle file
 def genres(df):
     df.drop(df[df['genres'] == '\\N'].index, inplace = True)
 
@@ -32,6 +34,7 @@ def genres(df):
         pickle.dump(genres, f)
     return df
 
+# clean the data so they can be combined to form a final string of parameters
 def clean_data(df):
     df['nconst'] = df['nconst'].fillna('[]')
     df['nconst'] = df['nconst'].apply(clean)
@@ -44,6 +47,7 @@ def clean_data(df):
 
     return df
 
+# combine all parameters together
 def soup(df):
     df['genreString'] = df['genres'].str.join(' ')
 
