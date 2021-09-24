@@ -82,7 +82,7 @@ asyncio.run(main())
 df['overview'] = overview
 df['poster'] = poster
 df['keywords'] = keywords
-df['orginalLanguage'] = org_lang
+df['originalLanguage'] = org_lang
 df['displayTitle'] = display_title
 
 df.to_csv('../data/data.csv', index=False)

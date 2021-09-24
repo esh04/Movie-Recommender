@@ -70,4 +70,6 @@ df = rating(df)
 df = clean_data(df)
 df = soup(df)
 
+df = df[(df['originalLanguage'] == 'hi') | (df['originalLanguage'] == 'en')]
+
 df.to_csv('../data/rated_data.csv', index=False)

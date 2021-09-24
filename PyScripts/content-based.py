@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 def conditions(genres, strDate, endDate, lang):
     
     df = pd.read_csv('../data/rated_data.csv')
-    df = df[(df.genres.apply(lambda x: any(item for item in genres if item in x))) & df['orginalLanguage'].isin(lang) & (df['startYear'].astype(int) <= endDate) & (df['startYear'].astype(int) >= strDate)]
+    df = df[(df.genres.apply(lambda x: any(item for item in genres if item in x))) & df['originalLanguage'].isin(lang) & (df['startYear'].astype(int) <= endDate) & (df['startYear'].astype(int) >= strDate)]
     return df
 
 def get_recommendations( title, cosine_sim, indices , movie_title ):
