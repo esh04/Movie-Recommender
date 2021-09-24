@@ -1,20 +1,20 @@
 # Movie-Recommender
-Need someone to just recommend one movie to you without having the hassle to go through ten different options? 
+- Need someone to just recommend one movie to you without having the hassle to go through ten different options? 
 
-We will give you one perfect choice so that you dont have to spend hours searching for what you like. 
+- We will give you one perfect choice so that you dont have to spend hours searching for what you like. 
 
-Choose the genre, language and preferred time period depending on your mood. When provided with the ten most popular movies in that genre, choose the ones you have seen and you like. That is it. Your work is done. We will then based on those choices provide you with one perfect option and all the details you need to know about that movie.
+- Choose the genre, language and preferred time period depending on your mood. When provided with the ten most popular movies in that genre, choose the ones you have seen and you like. That is it. Your work is done. We will then based on those choices provide you with one perfect option and all the details you need to know about that movie.
 
-What if you dont like the movie we recommended? No worries, just press pass and we will provide you with another movie. It is that simple. 
+- What if you dont like the movie we recommended? No worries, just press pass and we will provide you with another movie. It is that simple. 
 
 ## Recommendation System
-We use the Content-Based Recommendation system where we take your previous likings in order to recommend a movie to you based on their overview, keywords, genre, director, writer and the main cast as parameters to calculate similarity
+- We use the Content-Based Recommendation system where we take your previous likings in order to recommend a movie to you based on their overview, keywords, genre, director, writer and the main cast as parameters to calculate similarity
 
-We used `sklearn CountVectorizer` to convert the parameters from text to vector/token counts. 
+- We used `sklearn CountVectorizer` to convert the parameters from text to vector/token counts. 
 
-Then, `Cosine Similarity` is used to plot the similarities. The output varies from 0-1 where where 1 denotes 100% similarity. 
+- Then, `Cosine Similarity` is used to plot the similarities. The output varies from 0-1 where where 1 denotes 100% similarity. 
 
-Using this we can find the cosΘ between the two vectors. 
+- Using this we can find the cosΘ between the two vectors. 
 
 ## Dataset
 
