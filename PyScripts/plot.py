@@ -8,6 +8,8 @@ df = pd.read_csv('../data/data.csv', low_memory=False)
 overview = [""]*73160
 poster = [""]*73160
 keywords = [""]*73160
+org_lang = [""]*73160
+display_title = [""]*73160
 
 
 async def main():
@@ -40,6 +42,16 @@ async def get_data(session, titleId, index):
                 poster[index] = details['poster_path']
             except:
                 print(details)
+
+            try:
+                org_lang[index] = details['original_language']
+            except:
+                print(details)
+            try:
+                display_title[index] = details['title']
+            except:
+                print(details)
+
     except asyncio.TimeoutError:
         print("Error on ", index)
 
@@ -70,6 +82,12 @@ asyncio.run(main())
 df['overview'] = overview
 df['poster'] = poster
 df['keywords'] = keywords
+df['orginalLanguage'] = org_lang
+df['displayTitle'] = display_title
+
+df.to_csv('../data/data.csv', index=False)
+
+df = df[~df.overview.isnull()]
 
 df.to_csv('../data/data.csv', index=False)
 # https://image.tmdb.org/t/p/original/ + path

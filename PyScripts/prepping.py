@@ -22,19 +22,23 @@ def rating(df):
 
 # store all possible genres in a pickle file
 def genres(df):
+    # drop all null genres
     df.drop(df[df['genres'] == '\\N'].index, inplace = True)
 
+    # filter out only valid years
     df = df[df.startYear.str.isnumeric()]
 
+    # convert string of genres to list
     df['genres'] = df['genres'].str.split(',')
 
     genres = df.genres.explode().unique()
 
+    # pickle file of possible genres
     with open('../data/genres.pkl', 'wb') as f:
         pickle.dump(genres, f)
     return df
 
-# clean the data so they can be combined to form a final string of parameters
+# clean the data so they can be combined to form a final string of parameters, remove space between first name and last name
 def clean_data(df):
     df['nconst'] = df['nconst'].fillna('[]')
     df['nconst'] = df['nconst'].apply(clean)
@@ -49,10 +53,11 @@ def clean_data(df):
 
 # combine all parameters together
 def soup(df):
+    # make a string out of list of genre
     df['genreString'] = df['genres'].str.join(' ')
 
     #director is included three times in the soup as it should have more weight as compared to the other cast
-    df['soup'] = df['keywords'] + ' ' + df['nconst'] + ' ' +  df['genreString'] + ' ' +  df['writers'] + ' ' +  df['directors'] + ' ' +  df['directors'] +  ' ' + df['directors']
+    df['soup'] = df['keywords'] + ' ' + df['nconst'] + ' ' +  df['genreString'] + ' ' +  df['writers'] + ' ' +  df['directors'] + ' ' +  df['directors'] +  ' ' + df['directors'] + ' ' + df['overview']
     df = df.drop(['genreString'], axis = 1)
     df['soup'] = df['soup'].fillna('')
 
