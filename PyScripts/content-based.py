@@ -1,9 +1,14 @@
 #extracting features from plot to compute similarity/dissimilarity
+# https://towardsdatascience.com/using-cosine-similarity-to-build-a-movie-recommendation-system-ae7f20842599
+
 import pandas as pd
+import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
-def get_recommendations(title, cosine_sim, indices, movie_title):
+def get_recommendations( title, cosine_sim, indices , movie_title ):
+
+    
     # Get the index of the movie that matches the title
     idx = indices[title]
 
@@ -34,26 +39,35 @@ def fit_and_transform_plot(df):
     tfidf_matrix = tfidf.fit_transform(df['overview'])
     cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
     df = df.reset_index()
-    title = df['titles']
+    title = df['title']
     indice = pd.Series(df.index, index=df['title'])
     return cosine_sim, indice, title
+
+#https://towardsdatascience.com/basics-of-countvectorizer-e26677900f9c
 
 def fit_and_transform_soup(df):
     count = CountVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
     #https://stackoverflow.com/questions/39303912/tfidfvectorizer-in-scikit-learn-valueerror-np-nan-is-an-invalid-document
+
     count_matrix = count.fit_transform(df['soup'].values.astype('U'))
+
     cosine_sim = cosine_similarity(count_matrix, count_matrix)
+
     df = df.reset_index()
-    title = df['titles']
+    title = df['title']
     indice = pd.Series(df.index, index=df['title'])
+
     return cosine_sim, indice, title
-
-
 
 
 ########################################
 
 df = (conditions(['Drama'],2000,2020, ['hi','en']))
+l = (len(df))
+df = df.head(min(l,10000))
+# df['soup'] = df['soup'] + ' ' + df['overview']
 sim, indice, titles = fit_and_transform_soup(df)
+# sim, indice, titles = fit_and_transform_plot(df)
 
-get_recommendations('The Shawshank Redemption', sim, indice, titles )
+rec = get_recommendations('The Dark Knight', sim, indice, titles )
+print(rec)
