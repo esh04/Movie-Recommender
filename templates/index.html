@@ -23,12 +23,26 @@ content %}
       <div class="col-sm-5">
         <h4>Timeline</h4>
       </div>
-      <div class="col-sm-7 d-flex justify-content-center">
+      <div class="col-sm-7 d-flex align-items-center">
+        <p class="text-center px-4" style="margin: auto">From</p>
         <input
-          type="range"
-          style="width: 90%"
-          class="form-range"
-          id="customRange1"
+          type="number"
+          name="years"
+          class="form-control"
+          min="1990"
+          max="2021"
+          step="1"
+          value="1990"
+        />
+        <p class="text-center px-4" style="margin: auto">To</p>
+        <input
+          type="number"
+          name="years"
+          class="form-control"
+          min="1990"
+          max="2021"
+          step="1"
+          value="2021"
         />
       </div>
     </div>
@@ -61,6 +75,11 @@ content %}
         </div>
       </div>
     </div>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+      Start year cannot be more than final year!
+    </div>
+    {% endif %}
     <div class="row my-5">
       <div class="col">
         <button type="submit" class="btn btn-primary">Search</button>

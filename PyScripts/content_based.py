@@ -9,14 +9,14 @@ from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
 def conditions(genres, strDate, endDate, lang):
 
-    df = pd.read_pickle('data/data.pkl') 
+    df = pd.read_pickle('data/data.pkl')
     df = df[(df.genres.apply(lambda x: any(item for item in genres if item in x))) & df['originalLanguage'].isin(
         lang) & (df['startYear'].astype(int) <= endDate) & (df['startYear'].astype(int) >= strDate)]
 
     l = len(df)
 
     # take not more than 10k movies
-    df = df.head(min(l,10000))
+    df = df.head(min(l, 10000))
 
     return df
 
@@ -33,8 +33,8 @@ def get_recommendations(title, cosine_sim, indices, movie_title, len):
     # Sort the movies based on the similarity scores in descending order
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-    if (len>5):
-    # Get the scores of the 10 most similar movies
+    if (len > 5):
+        # Get the scores of the 10 most similar movies
         sim_scores = sim_scores[1:11]
     else:
         sim_scores = sim_scores[1:16]
@@ -67,9 +67,10 @@ def fit_and_transform_soup(df):
 
     return cosine_sim, indice, title
 
+
 def final_rec(genres, languages, movies_list, startYear, endYear):
     all_rec = pd.Series(dtype=object)
-    
+
     l = len(movies_list)
 
     # filter out data
@@ -80,20 +81,20 @@ def final_rec(genres, languages, movies_list, startYear, endYear):
 
     # get recommendations for each movie
     for movie in movies_list:
-        rec = get_recommendations(movie, cosine_sim, indice, title,l)
-        all_rec = pd.concat([rec , all_rec])
+        rec = get_recommendations(movie, cosine_sim, indice, title, l)
+        all_rec = pd.concat([rec, all_rec])
 
     # find count of all movies recommended
     new_df = all_rec.value_counts().rename_axis('displayTitle').to_frame('count')
 
     # find details of those movies
-    final_rec=pd.merge(df,new_df,how='right', on=['displayTitle'])
+    final_rec = pd.merge(df, new_df, how='right', on=['displayTitle'])
 
     # sort them primarily on the basis of count, if count is same then by rating
-    final_rec = final_rec.sort_values(['count', 'weightedRating'], ascending=False)
+    final_rec = final_rec.sort_values(
+        ['count', 'weightedRating'], ascending=False)
 
     # drop the movies that the user has selected
-    final_rec.drop(final_rec[final_rec['displayTitle'].isin(movies_list)].index, inplace = True)
+    final_rec.drop(final_rec[final_rec['displayTitle'].isin(
+        movies_list)].index, inplace=True)
     return final_rec
-
-print(final_rec(['Drama'],['en','hi'],['Yeh Jawaani Hai Deewani'], 2000,2020))

@@ -18,12 +18,16 @@
           name="movies"
           id="{{option.titleId}}"
         />
-        <label class="form-check-label" for="{{option.titleId}}">
+        <label class="form-check-label movie" for="{{option.titleId}}">
           <div class="card">
             <img
               class="card-img-top"
-              src="https://image.tmdb.org/t/p/original/{{option.poster}}"
-              alt="https://image.tmdb.org/t/p/original/{{option.poster}}"
+              src="{% if option.poster|length > 1 %}
+                  https://image.tmdb.org/t/p/original/{{option.poster}}
+                {% else %}
+                  https://image.tmdb.org/t/p/original//flczGLLtla3r2KqX5nunHmjPR78.jpg
+                {% endif %}"
+              alt="{{option.poster}}"
             />
             <div class="card-body">
               <h6 class="card-text font-weight-bold">
@@ -40,6 +44,9 @@
         <button type="submit" class="btn btn-primary">Find me a movie!</button>
       </div>
     </div>
+  </form>
+  <form method="POST" action="{{ url_for('search') }}">
+    <button type="submit" class="btn btn-primary">Refresh</button>
   </form>
 </div>
 {% endblock %}
