@@ -130,13 +130,7 @@ dmypy.json
 
 #csv/tsv to ignore
 *.tsv
-main_new.csv
-actor_new.csv
-crew_new.csv
-secondary_new.csv
-
+*.csv
 data/zip
 secrets.py
-data_new_new.csv
-data_removed.csv
 *.ipynb
