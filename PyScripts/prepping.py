@@ -71,5 +71,6 @@ df = clean_data(df)
 df = soup(df)
 
 df = df[(df['originalLanguage'] == 'hi') | (df['originalLanguage'] == 'en')]
+df['poster'] = df['poster'].fillna('')
 
 df.to_csv('../data/rated_data.csv', index=False)

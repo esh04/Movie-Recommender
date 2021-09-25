@@ -1,3 +1,4 @@
+import re
 import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
@@ -8,13 +9,13 @@ from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
 def conditions(genres, strDate, endDate, lang):
 
-    df = pd.read_csv('data/rated_data.csv')
+    df = pd.read_csv('../data/rated_data.csv') #   REMOVE .. BEFORE PUSHING
     df = df[(df.genres.apply(lambda x: any(item for item in genres if item in x))) & df['originalLanguage'].isin(
         lang) & (df['startYear'].astype(int) <= endDate) & (df['startYear'].astype(int) >= strDate)]
     return df
 
 
-def get_recommendations(title, cosine_sim, indices, movie_title):
+def get_recommendations(title, cosine_sim, indices, movie_title, len):
 
     # Get the index of the movie that matches the title
     idx = indices[title]
@@ -26,12 +27,14 @@ def get_recommendations(title, cosine_sim, indices, movie_title):
     # Sort the movies based on the similarity scores in descending order
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-    # Get the scores of the 30 most similar movies
-    sim_scores = sim_scores[1:31]
+    if (len>5):
+    # Get the scores of the 10 most similar movies
+        sim_scores = sim_scores[1:11]
+    else:
+        sim_scores = sim_scores[1:16]
 
     # Get the movie indices
     movie_indices = [i[0] for i in sim_scores]
-
     # Return the titles of the corresponding indices
     return movie_title.iloc[movie_indices]
 
@@ -53,10 +56,39 @@ def fit_and_transform_soup(df):
 
     # reset index of df and construct reverse mapping so that we can get index with the help of title
     df = df.reset_index()
-    title = df['title']
-    indice = pd.Series(df.index, index=df['title'])
+    title = df['displayTitle']
+    indice = pd.Series(df.index, index=df['displayTitle'])
 
     return cosine_sim, indice, title
 
+def final_rec(genres, languages, movies_list, startYear, endYear):
+    all_rec = pd.Series(dtype=object)
+    
+    l = len(movies_list)
 
-########################################
+    # filter out data
+    df = (conditions(genres, startYear, endYear, languages))
+
+    #fit and transform
+    cosine_sim, indice, title = fit_and_transform_soup(df)
+
+    # get recommendations for each movie
+    for movie in movies_list:
+        rec = get_recommendations(movie, cosine_sim, indice, title,l)
+        all_rec = pd.concat([rec , all_rec])
+
+    # find count of all movies recommended
+    new_df = all_rec.value_counts().rename_axis('displayTitle').to_frame('count')
+
+    # find details of those movies
+    final_rec=pd.merge(df,new_df,how='right', on=['displayTitle'])
+
+    # sort them primarily on the basis of count, if count is same then by rating
+    final_rec = final_rec.sort_values(['count', 'weightedRating'], ascending=False)
+
+    # drop the movies that the user has selected
+    final_rec.drop(final_rec[final_rec['displayTitle'].isin(movies_list)].index, inplace = True)
+    return final_rec
+
+
+print(final_rec(['Drama'], ['hi', 'en'], ['The Dark Knight', 'Yeh Jawaani Hai Deewani', 'Joker'], 2000, 2020))
