@@ -6,6 +6,15 @@
 }
 
 .main-container {
-  height: 82vh;
+  min-height: 84vh;
   margin: 0;
+}
+
+input[type="checkbox"]:checked + label {
+  opacity: 0.5;
+  border: 0.4rem solid blue;
+}
+
+.hidden {
+  visibility: hidden;
 }

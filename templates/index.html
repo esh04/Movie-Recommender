@@ -1,68 +1,71 @@
 {% extends 'base.html' %} {% block title %} Lorem Ipsum {% endblock %} {% block
 content %}
-<div class="container" style="margin: auto">
-  <div class="row my-5">
+<div class="container" style="margin-bottom: auto; margin-top: auto">
+  <div class="row mt-2">
     <div class="col">
-      <h2>What's your mood today?</h2>
+      <h1>What's your mood today?</h1>
     </div>
   </div>
-  <div class="row my-5">
-    <div class="col">
-      <h4>Genre</h4>
-    </div>
-    <div class="col">
-      <select class="custom-select" multiple size="5">
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-    </div>
-  </div>
-  <div class="row my-5">
-    <div class="col">
-      <h4>Timeline</h4>
-    </div>
-    <div class="col d-flex justify-content-center">
-      <input
-        type="range"
-        style="width: 90%"
-        class="form-range"
-        id="customRange1"
-      />
-    </div>
-  </div>
-  <div class="row my-5">
-    <div class="col">
-      <h4>Languages</h4>
-    </div>
-    <div class="col">
-      <div class="form-check">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          value=""
-          id="flexCheckDefault"
-          checked
-        />
-        <label class="form-check-label" for="flexCheckDefault"> English </label>
+  <form method="POST" action="{{ url_for('search') }}">
+    <div class="row my-5">
+      <div class="col-sm-5">
+        <h4>Genre</h4>
       </div>
-      <div class="form-check">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          value=""
-          id="flexCheckChecked"
-          checked
-        />
-        <label class="form-check-label" for="flexCheckChecked"> Hindi </label>
+      <div class="col-sm-7">
+        <select name="genre-select" class="custom-select">
+          {% for genre in genres %}
+          <option value="{{ genre }}">{{ genre }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
-  </div>
+    <div class="row my-5">
+      <div class="col-sm-5">
+        <h4>Timeline</h4>
+      </div>
+      <div class="col-sm-7 d-flex justify-content-center">
+        <input
+          type="range"
+          style="width: 90%"
+          class="form-range"
+          id="customRange1"
+        />
+      </div>
+    </div>
+    <div class="row my-5">
+      <div class="col-sm-5">
+        <h4>Languages</h4>
+      </div>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="en"
+            name="languages"
+            id="checkEnglish"
+            checked
+          />
+          <label class="form-check-label" for="checkEnglish"> English </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="hi"
+            name="languages"
+            id="checkHindi"
+            checked
+          />
+          <label class="form-check-label" for="checkHindi"> Hindi </label>
+        </div>
+      </div>
+    </div>
+    <div class="row my-5">
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </form>
 </div>
 {% endblock %}

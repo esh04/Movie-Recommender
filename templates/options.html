@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid my-2" style="margin: auto 6rem">
+  <div class="row mt-2">
+    <div class="col">
+      <h1>Choose what you have liked before</h1>
+    </div>
+  </div>
+  <form method="POST" action="{{ url_for('get') }}">
+    <div class="row card-group mt-2 d-flex justify-content-center">
+      {% for option in options %}
+      <div
+        class="col-sm-6 col-md-4 col-lg-3 my-3 d-flex justify-content-center"
+      >
+        <input
+          class="form-check-input hidden"
+          type="checkbox"
+          value="{{option.displayTitle}}"
+          name="movies"
+          id="{{option.titleId}}"
+        />
+        <label class="form-check-label" for="{{option.titleId}}">
+          <div class="card">
+            <img
+              class="card-img-top"
+              src="https://image.tmdb.org/t/p/original/{{option.poster}}"
+              alt="https://image.tmdb.org/t/p/original/{{option.poster}}"
+            />
+            <div class="card-body">
+              <h6 class="card-text font-weight-bold">
+                {{option.displayTitle}}
+              </h6>
+            </div>
+          </div>
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="row my-5">
+      <div class="col d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Find me a movie!</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
