@@ -10,7 +10,7 @@
   margin: 0;
 }
 
-input[type="checkbox"]:checked + label {
+input[type="checkbox"]:checked + label.movie {
   opacity: 0.5;
   border: 0.4rem solid blue;
 }

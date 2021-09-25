@@ -134,3 +134,4 @@ dmypy.json
 data/zip
 secrets.py
 *.ipynb
+/flask_session

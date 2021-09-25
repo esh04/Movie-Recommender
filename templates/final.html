@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+<div
+  class="container my-2 d-flex justify-content-center align-it"
+  style="margin: auto 20rem"
+>
+  <div>
+    <h1 class="text-left my-4">{{movie.displayTitle}}</h1>
+    <div class="row mt-2 d-flex justify-content-center">
+      <div class="col-md-4">
+        <img
+          class="card-img-top"
+          src="{% if movie.poster|length > 1  %}
+            https://image.tmdb.org/t/p/original/{{movie.poster}}
+            {% else %}
+            https://image.tmdb.org/t/p/original//flczGLLtla3r2KqX5nunHmjPR78.jpg
+            {% endif %}"
+          alt="{{movie.poster}}"
+        />
+      </div>
+      <div class="col-md-8 d-flex justify-content-center">
+        {{movie.overview}}
+      </div>
+    </div>
+  </div>
+  <form method="POST" action="{{ url_for('get') }}">
+    <button type="submit" class="btn btn-primary">Refresh</button>
+  </form>
+</div>
+{% endblock %}
