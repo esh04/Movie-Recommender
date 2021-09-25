@@ -12,6 +12,12 @@ def conditions(genres, strDate, endDate, lang):
     df = pd.read_pickle('data/data.pkl') 
     df = df[(df.genres.apply(lambda x: any(item for item in genres if item in x))) & df['originalLanguage'].isin(
         lang) & (df['startYear'].astype(int) <= endDate) & (df['startYear'].astype(int) >= strDate)]
+
+    l = len(df)
+
+    # take not more than 10k movies
+    df = df.head(min(l,10000))
+
     return df
 
 
@@ -69,9 +75,6 @@ def final_rec(genres, languages, movies_list, startYear, endYear):
     # filter out data
     df = (conditions(genres, startYear, endYear, languages))
 
-    # take not more than 10k movies
-    df = df.head(min(l,10000))
-
     #fit and transform
     cosine_sim, indice, title = fit_and_transform_soup(df)
 
@@ -93,3 +96,4 @@ def final_rec(genres, languages, movies_list, startYear, endYear):
     final_rec.drop(final_rec[final_rec['displayTitle'].isin(movies_list)].index, inplace = True)
     return final_rec
 
+print(final_rec(['Drama'],['en','hi'],['Yeh Jawaani Hai Deewani'], 2000,2020))
