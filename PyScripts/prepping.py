@@ -72,5 +72,6 @@ df = soup(df)
 
 df = df[(df['originalLanguage'] == 'hi') | (df['originalLanguage'] == 'en')]
 df['poster'] = df['poster'].fillna(' ')
+df = df[['titleId','displayTitle','genres', 'startYear','originalLanguage', 'soup', 'weightedRating', 'overview', 'poster']]
 
-df.to_csv('../data/rated_data.csv', index=False)
+df.to_pickle('../data/data.pkl')

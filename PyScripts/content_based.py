@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
 def conditions(genres, strDate, endDate, lang):
 
-    df = pd.read_csv('../data/rated_data.csv') #   REMOVE .. BEFORE PUSHING
+    df = pd.read_pickle('data/data.pkl') 
     df = df[(df.genres.apply(lambda x: any(item for item in genres if item in x))) & df['originalLanguage'].isin(
         lang) & (df['startYear'].astype(int) <= endDate) & (df['startYear'].astype(int) >= strDate)]
     return df
@@ -90,5 +90,3 @@ def final_rec(genres, languages, movies_list, startYear, endYear):
     final_rec.drop(final_rec[final_rec['displayTitle'].isin(movies_list)].index, inplace = True)
     return final_rec
 
-
-print(final_rec(['Drama'], ['hi', 'en'], ['The Dark Knight', 'Yeh Jawaani Hai Deewani', 'Joker'], 2000, 2020))
