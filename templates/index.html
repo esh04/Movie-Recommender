@@ -1,59 +1,90 @@
-{% extends 'base.html' %} {% block title %} Lorem Ipsum {% endblock %} {% block content %}
+{% extends 'base.html' %} {% block title %} Lorem Ipsum {% endblock %} {% block
+content %}
 <div class="container" style="margin-bottom: auto; margin-top: auto">
-    <div class="row mt-2">
-        <div class="col">
-            <h1>What's your mood today?</h1>
-        </div>
+  <div class="row mt-2">
+    <div class="col">
+      <h1>What's your mood today?</h1>
     </div>
-    <form method="POST" action="{{ url_for('search') }}">
-        <div class="row my-5">
-            <div class="col-sm-5">
-                <h4>Genre</h4>
-            </div>
-            <div class="col-sm-7">
-                <select name="genre-select" class="custom-select">
+  </div>
+  <form method="POST" action="{{ url_for('search') }}">
+    <div class="row my-5">
+      <div class="col-sm-5">
+        <h4>Genre</h4>
+      </div>
+      <div class="col-sm-7">
+        <select name="genre-select" class="custom-select">
           {% for genre in genres %}
           <option value="{{ genre }}">{{ genre }}</option>
           {% endfor %}
         </select>
-            </div>
+      </div>
+    </div>
+    <div class="row my-5">
+      <div class="col-sm-5">
+        <h4>Timeline</h4>
+      </div>
+      <div class="col-sm-7 d-flex align-items-center">
+        <p class="text-center px-4" style="margin: auto">From</p>
+        <input
+          type="number"
+          name="years"
+          class="form-control"
+          min="1990"
+          max="2021"
+          step="1"
+          value="1990"
+        />
+        <p class="text-center px-4" style="margin: auto">To</p>
+        <input
+          type="number"
+          name="years"
+          class="form-control"
+          min="1990"
+          max="2021"
+          step="1"
+          value="2021"
+        />
+      </div>
+    </div>
+    <div class="row my-5">
+      <div class="col-sm-5">
+        <h4>Languages</h4>
+      </div>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="en"
+            name="languages"
+            id="checkEnglish"
+            checked
+          />
+          <label class="form-check-label" for="checkEnglish"> English </label>
         </div>
-        <div class="row my-5">
-            <div class="col-sm-5">
-                <h4>Timeline</h4>
-            </div>
-            <div class="col-sm-7 d-flex align-items-center">
-                <p class="text-center px-4" style="margin: auto">From</p>
-                <input type="number" name="years" class="form-control" min="1990" max="2021" step="1" value="1990" />
-                <p class="text-center px-4" style="margin: auto">To</p>
-                <input type="number" name="years" class="form-control" min="1990" max="2021" step="1" value="2021" />
-            </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="hi"
+            name="languages"
+            id="checkHindi"
+            checked
+          />
+          <label class="form-check-label" for="checkHindi"> Hindi </label>
         </div>
-        <div class="row my-5">
-            <div class="col-sm-5">
-                <h4>Languages</h4>
-            </div>
-            <div class="col-sm-7">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="en" name="languages" id="checkEnglish" checked />
-                    <label class="form-check-label" for="checkEnglish"> English </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="hi" name="languages" id="checkHindi" checked />
-                    <label class="form-check-label" for="checkHindi"> Hindi </label>
-                </div>
-            </div>
-        </div>
-        {% if error %}
-        <div class="alert alert-danger" role="alert">
-            Start year cannot be more than final year!
-        </div>
-        {% endif %}
-        <div class="row my-5">
-            <div class="col">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </div>
-    </form>
+      </div>
+    </div>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+      Start year cannot be more than final year!
+    </div>
+    {% endif %}
+    <div class="row my-5">
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </form>
 </div>
 {% endblock %}
