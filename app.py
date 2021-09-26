@@ -15,6 +15,9 @@ Session(app)
 def search():
     if request.method == 'POST':
 
+        if not session.get("languages"):
+            session["languages"] = []
+
         session["genre"] = request.form.get(
             'genre-select') if request.form.get('genre-select') else session["genre"]
         session["languages"] = request.form.getlist('languages') if len(
@@ -24,7 +27,11 @@ def search():
 
         if session["years"][0] > session["years"][1]:
             return render_template('index.html',
-                                   genres=session["genres"], error=1)
+                                   genres=session["genres"], error=1, genre=session["genre"])
+
+        if len(session["languages"]) == 0:
+            return render_template('index.html',
+                                   genres=session["genres"], error=2)
 
         df = (conditions(([session["genre"]]), int(session["years"][0]),
               int(session["years"][1]), session["languages"]))

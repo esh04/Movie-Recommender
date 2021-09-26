@@ -75,9 +75,13 @@ content %}
         </div>
       </div>
     </div>
-    {% if error %}
+    {% if error == 1 %}
     <div class="alert alert-danger" role="alert">
       Start year cannot be more than final year!
+    </div>
+    {% elif error == 2 %}
+    <div class="alert alert-danger" role="alert">
+      Please select atleast one language!
     </div>
     {% endif %}
     <div class="row my-5">
