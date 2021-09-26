@@ -7,7 +7,7 @@
 ## How it works
 - Choose the genre you are in the mood for.
 - User can also specify the language and the preferable release date of the movie they wish to watch. 
-- We ask the user to select the movies they have watched and like from a list of 10 movies randomly selected from the top 250 in that genre.
+- We ask the user to select the movies they have watched and liked from a list of 10 movies selected from the top 250 following the set conditions.
 - Depending on the choices they make we provide them with one movie perfectly suited for them
 
 ## Recommendation System
@@ -16,8 +16,6 @@
 - We use `sklearn CountVectorizer` to convert the parameters from text to vector/token counts. 
 - `Cosine Similarity` is used to plot the similarities. The output varies from 0-1 where where 1 denotes 100% similarity. 
 - Using this we can find the cosΘ between the two vectors. 
-- Once the user selects the movies they like, we find movie recommendations for all of those choices.
-- To find the one perfect movie, we primarily sort them on the basis of common suggestions. If two movies are suggested the same number of times, the weighted rating of the movie is considered. 
 
 ## Dataset
 - We got ratings, crew information, genre for every movie on iMDb from https://www.imdb.com/interfaces/.

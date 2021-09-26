@@ -1,8 +1,7 @@
-import re
+from numpy.core.numeric import NaN
 import pandas as pd
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 # apply the conditions as mentioned by the user
 
@@ -21,7 +20,7 @@ def conditions(genres, strDate, endDate, lang):
     return df
 
 
-def get_recommendations(title, cosine_sim, indices, movie_title, len):
+def get_recommendations(title, cosine_sim, indices, movie_title):
 
     # Get the index of the movie that matches the title
     idx = indices[title]
@@ -33,11 +32,8 @@ def get_recommendations(title, cosine_sim, indices, movie_title, len):
     # Sort the movies based on the similarity scores in descending order
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-    if (len > 5):
-        # Get the scores of the 10 most similar movies
-        sim_scores = sim_scores[1:11]
-    else:
-        sim_scores = sim_scores[1:16]
+    # return 50 similar movies
+    sim_scores = sim_scores[1:51]
 
     # Get the movie indices
     movie_indices = [i[0] for i in sim_scores]
@@ -69,32 +65,25 @@ def fit_and_transform_soup(df):
 
 
 def final_rec(genres, languages, movies_list, startYear, endYear):
-    all_rec = pd.Series(dtype=object)
-
-    l = len(movies_list)
 
     # filter out data
     df = (conditions(genres, startYear, endYear, languages))
+    chosen_movies = (df[df['displayTitle'].isin(movies_list)])
+    soup = chosen_movies['soup'].str.cat(sep = ' ')
+    new = {'displayTitle' : 'selectedMovies', 'soup' : soup}
+    df = df.append(new, ignore_index=True)
 
     #fit and transform
     cosine_sim, indice, title = fit_and_transform_soup(df)
 
-    # get recommendations for each movie
-    for movie in movies_list:
-        rec = get_recommendations(movie, cosine_sim, indice, title, l)
-        all_rec = pd.concat([rec, all_rec])
-
-    # find count of all movies recommended
-    new_df = all_rec.value_counts().rename_axis('displayTitle').to_frame('count')
+    # get recommendations 
+    rec = get_recommendations('selectedMovies', cosine_sim, indice, title)
 
     # find details of those movies
-    final_rec = pd.merge(df, new_df, how='right', on=['displayTitle'])
-
-    # sort them primarily on the basis of count, if count is same then by rating
-    final_rec = final_rec.sort_values(
-        ['count', 'weightedRating'], ascending=False)
+    final_rec = pd.merge(df, rec, how='right', on=['displayTitle'])
 
     # drop the movies that the user has selected
     final_rec.drop(final_rec[final_rec['displayTitle'].isin(
         movies_list)].index, inplace=True)
+
     return final_rec
