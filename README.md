@@ -4,6 +4,8 @@
 - We will give you one perfect choice so that you dont have to spend hours searching for what you like. 
 - What if you dont like the movie we recommended? No worries, just press pass and we will provide you with another movie. It is that simple. 
 
+**Run app.py to access the website locally**
+
 ## How it works
 - Choose the genre you are in the mood for.
 - You can also specify the language and the preferable release date of the movie you wish to watch. 
@@ -18,6 +20,7 @@
 - We use `sklearn CountVectorizer` to convert the parameters from text to vector/token counts. 
 - `Cosine Similarity` is used to plot the similarities. The output varies from 0-1 where where 1 denotes 100% similarity. 
 - Using this we can find the cosΘ between the two vectors. 
+- We then sort the possible recommendations for each movie based on the number of times it was suggested primarily and the movie’s rating to find the perfect match.
 
 ## Dataset
 - We got ratings, crew information, genre for every movie on iMDb from https://www.imdb.com/interfaces/.
