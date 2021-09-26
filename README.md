@@ -7,8 +7,6 @@
 
 **Run app.py to access the website locally**
 
-Live: [https://wa-wc.herokuapp.com/](https://wa-wc.herokuapp.com/)
-
 ## How it works
 
 - Choose the genre you are in the mood for.
