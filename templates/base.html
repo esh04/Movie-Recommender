@@ -1,127 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="./static/css/bootstrap.min.css"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="./static/css/style.css" />
 
     <title>Lorem Ipsum</title>
     {% block head %} {% endblock %}
-  </head>
+</head>
 
-  <body>
+<body>
     <!-- Nav starts -->
     <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="{{ url_for('search')}}">Lorem Ipsum</a>
-      <button
-        type="button"
-        class="
+        <a class="navbar-brand" href="{{ url_for('search')}}">Lorem Ipsum</a>
+        <button type="button" class="
           btn btn-dark
           circle
           d-flex
           justify-content-center
           align-items-center
-        "
-        data-toggle="modal"
-        data-target="#instructions_modal"
-      >
+        " data-toggle="modal" data-target="#instructions_modal">
         ?
       </button>
     </nav>
     <!-- Nav ends -->
 
     <div class="container-fluid p-0">
-      <div class="d-flex flex-wrap main-container">
-        {% block content %}{% endblock %}
+        <div class="d-flex flex-wrap main-container">
+            {% block content %}{% endblock %}
 
-        <!-- Instructions modal -->
-        <div
-          class="modal fade"
-          id="instructions_modal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalCenterTitle"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">
-                  Instructions
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
+            <!-- Instructions modal -->
+            <div class="modal fade" id="instructions_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                Instructions
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-              </div>
-              <div class="modal-body">
-                Choosing a movie for your date night becoming tough among the
-                hundreds of possibilties you have on Netflix, Amazon Prime or
-                Hotstar?<br />
-                <br />
-                We will give you one perfect choice for your date night so that
-                you dont have to spend hours searching for what you like
-                <br />
-                <br />
-                <h4>How to use</h4>
-                <ul>
-                  <li>
-                    Choose the genre, time period and language of the movie you
-                    want to watch.
-                  </li>
-                  <li>
-                    We will give you 10 options, amonng which you have to choose
-                    the movies which you have previously seen and liked.
-                  </li>
-                  <li>
-                    That's it! You will get one movie which you will definitely
-                    like based on your previously likings.
-                  </li>
-                  <li>
-                    Don't like the movie we suggested or have already seen it?
-                    You can ask us for another recommendation.
-                  </li>
-                </ul>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
+                        </div>
+                        <div class="modal-body">
+                            Choosing a movie for your date night becoming tough among the hundreds of possibilties you have on Netflix, Amazon Prime or Hotstar?
+                            <br />
+                            <br /> We will give you one perfect choice for your date night so that you dont have to spend hours searching for what you like
+                            <br />
+                            <br />
+                            <h4>How to use</h4>
+                            <ul>
+                                <li>
+                                    Choose the genre, time period and language of the movie you want to watch.
+                                </li>
+                                <li>
+                                    We will give you 10 options, among which you have to choose the movies which you have previously seen and liked. If you like none of the options presented to you, no worries, you can ask for another set of options by pressing the refresh button.
+                                </li>
+                                <li>
+                                    That's it! You will get one movie which you will definitely like based on your previously likings.
+                                </li>
+                                <li>
+                                    Don't like the movie we suggested or have already seen it? You can ask us for another recommendation by pressing the pass button.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                   Close
                 </button>
-              </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <!-- Instructions modal end -->
         </div>
-        <!-- Instructions modal end -->
-      </div>
     </div>
 
     <!-- Footer starts -->
     <footer>
-      <div class="footer-copyright text-center py-3">
-        Made by
-        <a href="https://github.com/keshav2712" target="_blank">Keshav Bajaj</a>
-        and
-        <a href="https://github.com/esh04" target="_blank">Eshika Khandelwal</a>
-      </div>
+        <div class="footer-copyright text-center py-3">
+            Made by
+            <a href="https://github.com/keshav2712" target="_blank">Keshav Bajaj</a> and
+            <a href="https://github.com/esh04" target="_blank">Eshika Khandelwal</a>
+        </div>
     </footer>
     <!-- Footer end -->
 
@@ -130,5 +95,6 @@
     <script src="./static/js/jquery-3.3.1.slim.min.js"></script>
     <script src="./static/js/popper.min.js"></script>
     <script src="./static/js/bootstrap.min.js"></script>
-  </body>
+</body>
+
 </html>

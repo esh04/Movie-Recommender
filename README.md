@@ -6,7 +6,7 @@
 
 ## How it works
 - Choose the genre you are in the mood for.
-- User can also specify the language and the preferable release date of the movie they wish to watch.
+- User can also specify the language and the preferable release date of the movie they wish to watch. 
 - We ask the user to select the movies they have watched and like from a list of 10 movies randomly selected from the top 250 in that genre.
 - Depending on the choices they make we provide them with one movie perfectly suited for them
 
@@ -22,6 +22,7 @@
 ## Dataset
 - We got ratings, crew information, genre for every movie on iMDb from https://www.imdb.com/interfaces/.
 - We then got the poster, plot, original language and keywords for every movie using the unique iMDb id with the help of `TMDB API`
+- We removed all movies pre 1990 for relevance. 
 - We then grouped all the movies by genre and rated them using the **True Bayesian estimation**.
 - Weighted Rating(WR) = (v/v+m).R + (m/m+v).C 
     - Where v is the number of votes, m is the minimum number of votes the movie should get to be considered, C is mean vote and R is the average rating of the movie.
