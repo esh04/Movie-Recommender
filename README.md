@@ -6,9 +6,11 @@
 
 ## How it works
 - Choose the genre you are in the mood for.
-- User can also specify the language and the preferable release date of the movie they wish to watch. 
-- We ask the user to select the movies they have watched and liked from a list of 10 movies selected from the top 250 following the set conditions.
-- Depending on the choices they make we provide them with one movie perfectly suited for them
+- You can also specify the language and the preferable release date of the movie you wish to watch. 
+- Then, select the movies you have watched and liked from a list of 10 movies picked from the top 250 following the set conditions.
+- If you do not like any of the 10 options provided you can always press refresh and ask for more.
+- Depending on the choices you make we provide you with one movie perfectly suited for you.
+- If you are not satisfied with the recommendation, no worries, press pass and we will recommend another movie for you. 
 
 ## Recommendation System
 - We use the Content-Based Recommendation system where we take your previous likings in order to recommend a movie to you.
