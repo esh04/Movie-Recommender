@@ -1,0 +1,20 @@
+.circle {
+  border-radius: 100px;
+  height: 16px;
+  width: 16px;
+  padding: 10px;
+}
+
+.main-container {
+  min-height: 84vh;
+  margin: 0;
+}
+
+input[type="checkbox"]:checked + label.movie {
+  opacity: 0.5;
+  border: 0.4rem solid blue;
+}
+
+.hidden {
+  visibility: hidden;
+}

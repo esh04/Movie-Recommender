@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block content %}
+<div
+  class="container my-2 d-flex justify-content-center align-it"
+  style="margin: auto 20rem"
+>
+  <div>
+    <h1 class="text-left my-4">{{movie.displayTitle}}</h1>
+    <div class="row mt-2 d-flex justify-content-center">
+      <div class="col-md-4">
+        <img
+          class="card-img-top"
+          src="{% if movie.poster|length > 1  %}
+            https://image.tmdb.org/t/p/original/{{movie.poster}}
+            {% else %}
+            https://www.movienewz.com/img/films/poster-holder.jpg
+            {% endif %}"
+          alt="{{movie.poster}}"
+        />
+      </div>
+      <div class="col-md-8">
+        <b>Genres:</b> {%for genre in movie.genres%} {{genre}}{{ ", " if not
+        loop.last else "" }}{%endfor%}<br /><br />
+        <p>
+          <b>Plot</b><br />
+          {{movie.overview}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <form method="POST" action="{{ url_for('get') }}">
+    <button type="submit" class="btn btn-primary">Pass</button>
+  </form>
+</div>
+{% endblock %}
