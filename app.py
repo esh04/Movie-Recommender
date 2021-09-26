@@ -38,6 +38,7 @@ def search():
         l = len(df)
         options = df.head(min(250, l)).sample(n=min(10, l)).to_dict('records')
 
+        session["data"] = ""
         return render_template('options.html', options=options)
 
     session["genres"] = []
@@ -55,12 +56,18 @@ def get():
         session["movies"] = request.form.getlist('movies') if len(
             request.form.getlist('movies')) else session["movies"]
 
-        final_movie = final_rec([session["genre"]], session["languages"], session["movies"], int(
-            session["years"][0]), int(session["years"][1]))
+        if session["data"] == "":
+            print('weeeeeeeeeeeee')
+            final_movie = final_rec([session["genre"]], session["languages"], session["movies"], int(
+                session["years"][0]), int(session["years"][1]))
 
+            dict_obj = final_movie.to_dict('list')
+            session['data'] = dict_obj
+
+        final_movie = final_movie.iloc[session["index"]]
         session["index"] += 1
 
-        return render_template('final.html', movie=final_movie.iloc[session["index"]])
+        return render_template('final.html', movie=final_movie)
 
 
 if __name__ == '__main__':
