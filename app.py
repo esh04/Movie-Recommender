@@ -2,6 +2,7 @@ import pickle
 from PyScripts.content_based import conditions, final_rec
 from flask import Flask, render_template, request, session
 from flask_session import Session
+import pandas as pd
 
 app = Flask(__name__)
 # Check Configuration section for more details
@@ -58,13 +59,15 @@ def get():
 
         if session["data"] == "":
             print('weeeeeeeeeeeee')
-            final_movie = final_rec([session["genre"]], session["languages"], session["movies"], int(
+            final_movies = final_rec([session["genre"]], session["languages"], session["movies"], int(
                 session["years"][0]), int(session["years"][1]))
 
-            dict_obj = final_movie.to_dict('list')
+            dict_obj = final_movies.to_dict('list')
             session['data'] = dict_obj
 
-        final_movie = final_movie.iloc[session["index"]]
+        dict_obj = session['data'] if 'data' in session else ""
+        df = pd.DataFrame(dict_obj)
+        final_movie = df.iloc[session["index"]]
         session["index"] += 1
 
         return render_template('final.html', movie=final_movie)
