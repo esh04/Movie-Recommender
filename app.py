@@ -44,6 +44,7 @@ def search():
 
     session["genres"] = []
     session["index"] = 0
+    session["movies"] = []
     with open('data/genres.pkl', 'rb') as f:
         session["genres"] = pickle.load(f)
 
@@ -58,7 +59,6 @@ def get():
             request.form.getlist('movies')) else session["movies"]
 
         if session["data"] == "":
-            print('weeeeeeeeeeeee')
             final_movies = final_rec([session["genre"]], session["languages"], session["movies"], int(
                 session["years"][0]), int(session["years"][1]))
 

@@ -74,6 +74,9 @@ def final_rec(genres, languages, movies_list, startYear, endYear):
     # filter out data
     df = (conditions(genres, startYear, endYear, languages))
 
+    if l == 0:
+        return df.head(250)
+
     #fit and transform
     cosine_sim, indice, title = fit_and_transform_soup(df)
 
