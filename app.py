@@ -6,7 +6,6 @@ import pandas as pd
 
 app = Flask(__name__)
 # Check Configuration section for more details
-app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
@@ -15,24 +14,20 @@ Session(app)
 @app.route("/", methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
+        print(request.form, 'hey')
 
-        if not session.get("languages"):
-            session["languages"] = []
+        if request.form.get("submit"):
+            session["genre"] = request.form.get('genre-select')
+            session["languages"] = request.form.getlist('languages')
+            session["years"] = request.form.getlist('years')
 
-        session["genre"] = request.form.get(
-            'genre-select') if request.form.get('genre-select') else session["genre"]
-        session["languages"] = request.form.getlist('languages') if len(
-            request.form.getlist('languages')) else session["languages"]
-        session["years"] = request.form.getlist('years') if len(
-            request.form.getlist('years')) else session["years"]
+            if session["years"][0] > session["years"][1]:
+                return render_template('index.html',
+                                       genres=session["genres"], error=1, genre=session["genre"])
 
-        if session["years"][0] > session["years"][1]:
-            return render_template('index.html',
-                                   genres=session["genres"], error=1, genre=session["genre"])
-
-        if len(session["languages"]) == 0:
-            return render_template('index.html',
-                                   genres=session["genres"], error=2)
+            if len(session["languages"]) == 0:
+                return render_template('index.html',
+                                       genres=session["genres"], error=2)
 
         df = (conditions(([session["genre"]]), int(session["years"][0]),
               int(session["years"][1]), session["languages"]))
@@ -45,9 +40,9 @@ def search():
     session["genres"] = []
     session["index"] = 0
     session["movies"] = []
+    session["languages"] = []
     with open('data/genres.pkl', 'rb') as f:
         session["genres"] = pickle.load(f)
-
     return render_template('index.html',
                            genres=session["genres"], error=0)
 
