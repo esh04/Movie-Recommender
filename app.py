@@ -5,7 +5,7 @@ from flask_session import Session
 import pandas as pd
 
 app = Flask(__name__)
-# Check Configuration section for more details
+app.secret_key = 'superSecretKey'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
@@ -14,24 +14,21 @@ Session(app)
 @app.route("/", methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
-        print(request.form, 'hey')
-
         if request.form.get("submit"):
             session["genre"] = request.form.get('genre-select')
             session["languages"] = request.form.getlist('languages')
             session["years"] = request.form.getlist('years')
 
             if session["years"][0] > session["years"][1]:
-                return render_template('index.html',
-                                       genres=session["genres"], error=1, genre=session["genre"])
+                return render_template('index.html', error=1)
 
             if len(session["languages"]) == 0:
-                return render_template('index.html',
-                                       genres=session["genres"], error=2)
+                return render_template('index.html', error=2)
 
         df = (conditions(([session["genre"]]), int(session["years"][0]),
               int(session["years"][1]), session["languages"]))
         l = len(df)
+
         options = df.head(min(250, l)).sample(n=min(10, l)).to_dict('records')
 
         session["data"] = ""
@@ -40,11 +37,13 @@ def search():
     session["genres"] = []
     session["index"] = 0
     session["movies"] = []
-    session["languages"] = []
+    if not session.get('languages'):
+        session["languages"] = []
+
     with open('data/genres.pkl', 'rb') as f:
         session["genres"] = pickle.load(f)
-    return render_template('index.html',
-                           genres=session["genres"], error=0)
+
+    return render_template('index.html', error=0)
 
 
 @app.route("/suggestion", methods=['POST'])

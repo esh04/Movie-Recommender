@@ -13,9 +13,12 @@ content %}
       </div>
       <div class="col-sm-7">
         <select name="genre-select" class="custom-select">
-          {% for genre in genres %}
+          {% for genre in session["genres"] %} {% if session['genre'] == genre
+          %}
+          <option value="{{ genre }}" selected>{{ genre }}</option>
+          {% else %}
           <option value="{{ genre }}">{{ genre }}</option>
-          {% endfor %}
+          {% endif %} {% endfor %}
         </select>
       </div>
     </div>
@@ -32,7 +35,7 @@ content %}
           min="1990"
           max="2021"
           step="1"
-          value="1990"
+          value="{{session['years'][0] if session['years'] else 1990}}"
         />
         <p class="text-center px-4" style="margin: auto">To</p>
         <input
@@ -42,7 +45,7 @@ content %}
           min="1990"
           max="2021"
           step="1"
-          value="2021"
+          value="{{session['years'][1] if session['years'] else 2021}}"
         />
       </div>
     </div>
@@ -51,28 +54,31 @@ content %}
         <h4>Languages</h4>
       </div>
       <div class="col-sm-7">
+        {% for lang in ['en', 'hi'] %}
         <div class="form-check">
+          {% if lang in session["languages"] %}
           <input
             class="form-check-input"
             type="checkbox"
-            value="en"
+            value="{{lang}}"
             name="languages"
-            id="checkEnglish"
+            id="{{lang}}"
             checked
           />
-          <label class="form-check-label" for="checkEnglish"> English </label>
-        </div>
-        <div class="form-check">
+          {% else %}
           <input
             class="form-check-input"
             type="checkbox"
-            value="hi"
+            value="{{lang}}"
             name="languages"
-            id="checkHindi"
-            checked
+            id="{{lang}}"
           />
-          <label class="form-check-label" for="checkHindi"> Hindi </label>
+          {% endif %}
+          <label class="form-check-label" for="{{lang}}">
+            {{"English" if lang == "en" else "Hindi"}}
+          </label>
         </div>
+        {% endfor %}
       </div>
     </div>
     {% if error == 1 %}
