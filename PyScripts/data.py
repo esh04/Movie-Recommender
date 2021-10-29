@@ -11,7 +11,7 @@ import pandas as pd
 
 # from main.tsv we wish to extract the titleID, titles and languages of movies available on iMDb
 def main_data():
-    chunksize = 100000
+    chunksize = 100000 # the number of rows to be read into the dataframe at any single time in order to fit into the local memory. 
 
     list_of_dataframes = []
 
