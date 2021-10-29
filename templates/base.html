@@ -16,7 +16,6 @@
     />
     <link rel="stylesheet" type="text/css" href="./static/css/style.css" />
     <title>What to watch today?</title>
-    {% block head %} {% endblock %}
   </head>
 
   <body>
@@ -44,6 +43,7 @@
 
     <div class="container-fluid p-0">
       <div class="d-flex flex-wrap main-container">
+        <!-- Form block to use as template for other screens -->
         {% block content %}{% endblock %}
 
         <!-- Instructions modal -->
