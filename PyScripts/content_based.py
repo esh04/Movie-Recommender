@@ -53,6 +53,7 @@ def fit_and_transform_soup(df):
 
     # https://stackoverflow.com/questions/39303912/tfidfvectorizer-in-scikit-learn-valueerror-np-nan-is-an-invalid-document
     # transform the text into vectors
+    # convert the dtype object to unicode string
     count_matrix = count.fit_transform(df['soup'].values.astype('U'))
 
     # find the cosΘ between the two vectors i.e. similarity
@@ -74,6 +75,7 @@ def final_rec(genres, languages, movies_list, startYear, endYear):
     # filter out data
     df = (conditions(genres, startYear, endYear, languages))
 
+    #if no languages are chosen, by default return the top 250 movies 
     if l == 0:
         return df.head(250)
 
