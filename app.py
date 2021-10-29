@@ -1,6 +1,6 @@
 import pickle
 from PyScripts.content_based import conditions, final_rec
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for
 from flask_session import Session
 import pandas as pd
 
@@ -61,7 +61,7 @@ def search():
     return render_template('index.html', error=0)
 
 
-@app.route("/suggestion", methods=['POST'])
+@app.route("/suggestion", methods=['GET', 'POST'])
 def get():
 
     # If the user has selected the movies then render the recommendation page
@@ -89,6 +89,9 @@ def get():
         # Render the recommendation page with the recommended movie
         return render_template('final.html', movie=final_movie)
 
+    # If the user directly enters the url then redirect to the initial page
+    return redirect(url_for('search'))
+
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
