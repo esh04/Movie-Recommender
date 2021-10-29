@@ -1,3 +1,5 @@
+<!-- Landing Page -->
+
 {% extends 'base.html' %} {% block title %} Lorem Ipsum {% endblock %} {% block
 content %}
 <div class="container px-3" style="margin-bottom: auto; margin-top: auto">
@@ -12,7 +14,9 @@ content %}
         <h4>Genre</h4>
       </div>
       <div class="col-sm-7">
+        <!-- Imput genre for the movie -->
         <select name="genre-select" class="custom-select">
+          <!-- Select the genre which the user has selected it -->
           {% for genre in session["genres"] %} {% if session['genre'] == genre
           %}
           <option value="{{ genre }}" selected>{{ genre }}</option>
@@ -26,7 +30,9 @@ content %}
       <div class="col-sm-5">
         <h4>Timeline</h4>
       </div>
+      <!-- Input the timeline the user wants their movie in -->
       <div class="col-sm-7 d-flex align-items-center">
+        <!-- Start year -->
         <p class="text-center px-4" style="margin: auto">From</p>
         <input
           type="number"
@@ -37,6 +43,7 @@ content %}
           step="1"
           value="{{session['years'][0] if session['years'] else 1990}}"
         />
+        <!-- End year -->
         <p class="text-center px-4" style="margin: auto">To</p>
         <input
           type="number"
@@ -53,9 +60,11 @@ content %}
       <div class="col-sm-5">
         <h4>Languages</h4>
       </div>
+      <!-- Input the languages the user wants the movie in -->
       <div class="col-sm-7">
         {% for lang in ['en', 'hi'] %}
         <div class="form-check">
+          <!-- Select the checkbox if the language has been selected by the user -->
           {% if lang in session["languages"] %}
           <input
             class="form-check-input"
@@ -81,6 +90,7 @@ content %}
         {% endfor %}
       </div>
     </div>
+    <!-- Display errors-->
     {% if error == 1 %}
     <div class="alert alert-danger" role="alert">
       Start year cannot be more than final year!

@@ -5,13 +5,16 @@ from secrets import api_key
 
 df = pd.read_csv('../data/data.csv', low_memory=False)
 
-overview = [""]*73160
-poster = [""]*73160
-keywords = [""]*73160
-org_lang = [""]*73160
-display_title = [""]*73160
+len = df.shape[0]
+
+overview = [""]*len
+poster = [""]*len
+keywords = [""]*len
+org_lang = [""]*len
+display_title = [""]*len
 
 
+# assigning the request functions to tasks and storing all tasks in a list
 async def main():
     async with aiohttp.ClientSession() as session:
         tasks = []
@@ -26,6 +29,7 @@ async def main():
         await asyncio.gather(*tasks)
 
 
+# getting data about the movie from the TMDB API and storing them in respective lists
 async def get_data(session, titleId, index):
     url = 'https://api.themoviedb.org/3/movie/' + titleId + \
         '?api_key=' + api_key + '&external_source=imdb_id'
@@ -58,6 +62,7 @@ async def get_data(session, titleId, index):
     print("done", index)
 
 
+# getting keywords for the movie from the TMDB API and storing them in respective list
 async def get_key(session, titleId, index):
     url = 'https://api.themoviedb.org/3/movie/' + \
         titleId + '/keywords?api_key=' + \
@@ -77,8 +82,10 @@ async def get_key(session, titleId, index):
 
     print("done with key", index)
 
+# running all the tasks at once
 asyncio.run(main())
 
+# storing the data in from the apis in the dataframe
 df['overview'] = overview
 df['poster'] = poster
 df['keywords'] = keywords
@@ -87,6 +94,7 @@ df['displayTitle'] = display_title
 
 df.to_csv('../data/data.csv', index=False)
 
+# dropping rows with empty overview
 df = df[~df.overview.isnull()]
 
 df.to_csv('../data/data.csv', index=False)

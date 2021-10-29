@@ -1,5 +1,8 @@
+<!-- Movie Options Page -->
+
 {% extends 'base.html' %} {% block content %}
 <div class="container-fluid my-2" style="margin-bottom: auto; margin-top: auto">
+  <!-- Back button for user to reselect the filters -->
   <a href="{{ url_for('search') }}"
     ><button type="submit" class="btn btn-primary ml-5 my-2">Back</button></a
   >
@@ -12,6 +15,7 @@
   </div>
   <form method="POST" action="{{ url_for('get') }}">
     <div class="row card-group mt-2 d-flex justify-content-center">
+      <!-- Loop for all the suggestions from the backend -->
       {% for option in options %}
       <div
         class="col-sm-6 col-md-4 col-lg-3 my-3 d-flex justify-content-center"
@@ -25,6 +29,7 @@
         />
         <label class="form-check-label movie" for="{{option.titleId}}">
           <div class="card">
+            <!-- Add a default movie poster for movies which dont have one -->
             <img
               class="card-img-top"
               src="{% if option.poster|length > 1 %}
@@ -44,12 +49,14 @@
       </div>
       {% endfor %}
     </div>
+
     <div class="row my-5">
       <div class="col d-flex justify-content-center">
         <button type="submit" class="btn btn-primary">Find me a movie!</button>
       </div>
     </div>
   </form>
+  <!-- Load the page again to get new recommendation -->
   <form method="POST" action="{{ url_for('search') }}">
     <button type="submit" class="btn btn-primary">Refresh</button>
   </form>
