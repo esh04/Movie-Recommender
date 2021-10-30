@@ -75,7 +75,7 @@ def final_rec(genres, languages, movies_list, startYear, endYear):
     # filter out data
     df = (conditions(genres, startYear, endYear, languages))
 
-    #if no languages are chosen, by default return the top 250 movies 
+    #if no movies are chosen, by default return the top 250 movies 
     if l == 0:
         return df.head(250)
 
